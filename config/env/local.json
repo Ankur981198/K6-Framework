@@ -1,0 +1,25 @@
+{
+  "name": "local",
+  "baseUrl": "https://test-api.k6.io",
+  "http": {
+    "timeout": "30s",
+    "retries": 1,
+    "retryDelaySeconds": 1
+  },
+  "auth": {
+    "enabled": false,
+    "tokenUrl": "/auth/token/login/",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "credentials": {
+      "username": "${K6_USERNAME}",
+      "password": "${K6_PASSWORD}"
+    },
+    "tokenPath": "access"
+  },
+  "pacing": {
+    "thinkTimeSeconds": 1
+  }
+}

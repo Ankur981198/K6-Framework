@@ -1,0 +1,71 @@
+{
+  "service": "checkout-api",
+  "journey": "checkout",
+  "description": "SLO and performance budget policy for checkout journey.",
+  "slo": {
+    "http_req_duration": [
+      {
+        "stat": "p(95)",
+        "operator": "<",
+        "value": 2000,
+        "abortOnFail": true,
+        "delayAbortEval": "30s"
+      }
+    ],
+    "error_rate": [
+      {
+        "stat": "rate",
+        "operator": "<",
+        "value": 0.01,
+        "abortOnFail": true
+      }
+    ],
+    "checkout_transaction_duration": [
+      {
+        "stat": "p(95)",
+        "operator": "<",
+        "value": 2500
+      }
+    ],
+    "checks": [
+      {
+        "stat": "rate",
+        "operator": ">",
+        "value": 0.99
+      }
+    ]
+  },
+  "scenarios": {
+    "load": {
+      "stages": [
+        { "duration": "1m", "target": 5 },
+        { "duration": "3m", "target": 10 },
+        { "duration": "1m", "target": 0 }
+      ],
+      "gracefulRampDown": "30s"
+    },
+    "stress": {
+      "stages": [
+        { "duration": "2m", "target": 20 },
+        { "duration": "2m", "target": 40 },
+        { "duration": "2m", "target": 60 },
+        { "duration": "2m", "target": 0 }
+      ]
+    },
+    "spike": {
+      "stages": [
+        { "duration": "30s", "target": 5 },
+        { "duration": "30s", "target": 75 },
+        { "duration": "1m", "target": 75 },
+        { "duration": "30s", "target": 0 }
+      ]
+    },
+    "soak": {
+      "stages": [
+        { "duration": "5m", "target": 10 },
+        { "duration": "2h", "target": 10 },
+        { "duration": "5m", "target": 0 }
+      ]
+    }
+  }
+}

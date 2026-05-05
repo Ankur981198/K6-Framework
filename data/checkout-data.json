@@ -1,0 +1,12 @@
+[
+  {
+    "productName": "perf-checkout-alpha",
+    "sex": "M",
+    "dateOfBirth": "2020-01-01"
+  },
+  {
+    "productName": "perf-checkout-beta",
+    "sex": "F",
+    "dateOfBirth": "2021-02-02"
+  }
+]

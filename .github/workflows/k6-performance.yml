@@ -1,0 +1,37 @@
+name: k6 Performance Budgets
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  checkout-performance:
+    runs-on: ubuntu-latest
+    env:
+      ENVIRONMENT: local
+      SLO_PROFILE: checkout
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run k6 thresholds
+        uses: grafana/k6-action@v0.3.1
+        with:
+          filename: tests/scenarios/load.test.js
+          flags: >-
+            -e ENVIRONMENT=${{ env.ENVIRONMENT }}
+            -e SLO_PROFILE=${{ env.SLO_PROFILE }}
+            --summary-export reports/checkout-summary.json
+
+      - name: Upload performance summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: k6-summary
+          path: reports/checkout-summary.json
