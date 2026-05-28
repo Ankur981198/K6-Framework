@@ -1,12 +1,20 @@
 [
   {
-    "productName": "perf-checkout-alpha",
-    "sex": "M",
-    "dateOfBirth": "2020-01-01"
+    "userId": 23423,
+    "maxCaloriesPerSlice": 500,
+    "mustBeVegetarian": false,
+    "excludedIngredients": ["pepperoni"],
+    "excludedTools": ["knife"],
+    "maxNumberOfToppings": 6,
+    "minNumberOfToppings": 2
   },
   {
-    "productName": "perf-checkout-beta",
-    "sex": "F",
-    "dateOfBirth": "2021-02-02"
+    "userId": 23424,
+    "maxCaloriesPerSlice": 450,
+    "mustBeVegetarian": true,
+    "excludedIngredients": ["anchovies"],
+    "excludedTools": ["oven"],
+    "maxNumberOfToppings": 5,
+    "minNumberOfToppings": 2
   }
 ]

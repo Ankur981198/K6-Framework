@@ -1,23 +1,29 @@
 {
   "name": "local",
-  "baseUrl": "https://test-api.k6.io",
+  "baseUrl": "https://quickpizza.grafana.com",
   "http": {
     "timeout": "30s",
     "retries": 1,
     "retryDelaySeconds": 1
   },
   "auth": {
-    "enabled": false,
-    "tokenUrl": "/auth/token/login/",
+    "enabled": true,
+    "registration": {
+      "enabled": false,
+      "url": "/api/users",
+      "expectedStatuses": [201]
+    },
+    "tokenUrl": "/api/users/token/login",
     "method": "POST",
     "headers": {
       "Content-Type": "application/json"
     },
     "credentials": {
-      "username": "${K6_USERNAME}",
-      "password": "${K6_PASSWORD}"
+      "username": "default",
+      "password": "k6-perf-password"
     },
-    "tokenPath": "access"
+    "tokenPath": "token",
+    "authHeaderPrefix": "Token"
   },
   "pacing": {
     "thinkTimeSeconds": 1

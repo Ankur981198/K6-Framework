@@ -67,6 +67,13 @@ k6 run -e ENVIRONMENT=local -e SLO_PROFILE=checkout -e SCENARIO=load tests/scena
 
 Threshold breaches fail the k6 process, which fails CI.
 
+Each run writes JSON and HTML reports through k6 `handleSummary()`:
+
+```text
+reports/checkout-api-load-summary.json
+reports/checkout-api-load-summary.html
+```
+
 Use `SCENARIO=stress`, `SCENARIO=spike`, or `SCENARIO=soak` to reuse the same checkout journey with a different execution profile from `config/slo/checkout.json`.
 
 Windows examples:

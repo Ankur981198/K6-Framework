@@ -2,6 +2,7 @@ import { sleep } from 'k6';
 import { SharedArray } from 'k6/data';
 import { loadJsonConfig, resolveRuntimeConfig } from '../../core/configLoader.js';
 import { AuthManager } from '../../core/authManager.js';
+import { htmlReport, textSummary } from '../../core/htmlReporter.js';
 import { buildThresholds } from '../../core/thresholdManager.js';
 import { executeCheckoutJourney } from '../journeys/checkout.flow.js';
 
@@ -64,4 +65,20 @@ export function teardown(data) {
   // Keep cleanup explicit so environment-specific teardown can be added without
   // touching journey code. Examples: delete test orders, release reservations.
   console.log(`Completed k6 run ${data.runId}`);
+}
+
+export function handleSummary(data) {
+  const reportBaseName = `${runtimeConfig.slo.service}-${scenarioType}`;
+  const metadata = {
+    environment: runtimeConfig.environment.name,
+    scenario: scenarioType,
+    service: runtimeConfig.slo.service,
+    runId: runtimeConfig.execution.runId,
+  };
+
+  return {
+    stdout: textSummary(data, metadata),
+    [`reports/${reportBaseName}-summary.json`]: JSON.stringify(data, null, 2),
+    [`reports/${reportBaseName}-summary.html`]: htmlReport(data, metadata),
+  };
 }

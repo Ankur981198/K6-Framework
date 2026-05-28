@@ -27,11 +27,10 @@ jobs:
           flags: >-
             -e ENVIRONMENT=${{ env.ENVIRONMENT }}
             -e SLO_PROFILE=${{ env.SLO_PROFILE }}
-            --summary-export reports/checkout-summary.json
 
-      - name: Upload performance summary
+      - name: Upload performance reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: k6-summary
-          path: reports/checkout-summary.json
+          name: k6-performance-reports
+          path: reports/*

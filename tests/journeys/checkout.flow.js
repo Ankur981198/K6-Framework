@@ -15,6 +15,7 @@ export function executeCheckoutJourney({ environment, authHeaders = {}, testData
     baseUrl: environment.baseUrl,
     defaultHeaders: {
       'Content-Type': 'application/json',
+      'X-User-ID': String(testData.userId || `${__VU}${__ITER}`),
       ...authHeaders,
     },
     timeout: environment.http?.timeout,
@@ -25,13 +26,13 @@ export function executeCheckoutJourney({ environment, authHeaders = {}, testData
   const startedAt = Date.now();
 
   group('checkout', () => {
-    client.get('/public/crocodiles/', {
-      tags: { journey: 'checkout', step: 'browse_catalog' },
+    client.get('/api/config', {
+      tags: { journey: 'checkout', step: 'load_config' },
     });
 
-    client.post('/my/crocodiles/', buildCheckoutPayload(testData), {
-      tags: { journey: 'checkout', step: 'create_order' },
-      expectedStatuses: [200, 201, 202, 400, 401],
+    client.post('/api/pizza', buildCheckoutPayload(testData), {
+      tags: { journey: 'checkout', step: 'request_recommendation' },
+      expectedStatuses: [200],
     });
   });
 
@@ -42,8 +43,11 @@ export function executeCheckoutJourney({ environment, authHeaders = {}, testData
 
 function buildCheckoutPayload(testData) {
   return {
-    name: testData.productName || `perf-order-${__VU}-${__ITER}`,
-    sex: testData.sex || 'M',
-    date_of_birth: testData.dateOfBirth || '2020-01-01',
+    maxCaloriesPerSlice: testData.maxCaloriesPerSlice || 500,
+    mustBeVegetarian: Boolean(testData.mustBeVegetarian),
+    excludedIngredients: testData.excludedIngredients || ['pepperoni'],
+    excludedTools: testData.excludedTools || ['knife'],
+    maxNumberOfToppings: testData.maxNumberOfToppings || 6,
+    minNumberOfToppings: testData.minNumberOfToppings || 2,
   };
 }
