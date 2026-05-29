@@ -2,7 +2,7 @@
  * Lightweight HTML summary reporter for k6 handleSummary().
  *
  * This keeps reporting self-contained in the starter framework instead of
- * depending on a remote import during CI execution.
+ * depending on a remote import during CI execution
  */
 
 export function htmlReport(data, metadata = {}) {
