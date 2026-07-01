@@ -62,7 +62,7 @@ chmod +x scripts/run-local.sh
 Or run directly:
 
 ```bash
-k6 run -e ENVIRONMENT=local -e SLO_PROFILE=checkout -e SCENARIO=load tests/scenarios/load.test.js
+k6 run -e ENVIRONMENT=local -e USER_EMAIL=${USER_EMAIL} -e USER_PASSWORD=${USER_PASSWORD} -e SLO_PROFILE=addToCart -e SCENARIO=load tests/addToCart/scenarios/addToCart.test.js
 ```
 
 Threshold breaches fail the k6 process, which fails CI.

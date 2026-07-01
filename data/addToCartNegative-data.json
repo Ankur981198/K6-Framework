@@ -1,0 +1,19 @@
+[
+  {
+    "name": "Null Product",
+    "userId": "6a420ffd378febeacdd707de",
+    "product": null
+  },
+  {
+    "name": "Empty Product",
+    "userId": "6a420ffd378febeacdd707de",
+    "product": {}
+  },
+  {
+    "name": "Invalid Product Id",
+    "userId": "6a420ffd378febeacdd707de",
+    "product": {
+      "_id": "123456789012345678901234"
+    }
+  }
+]
