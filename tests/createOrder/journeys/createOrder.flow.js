@@ -59,6 +59,7 @@ export function executeCreateOrderJourney({
         tags: {
           journey: 'createOrder',
           step: 'create_order',
+          system: 'payment_gateway'
         },
         expectedStatuses: [201],
       }

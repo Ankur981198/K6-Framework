@@ -1,5 +1,5 @@
 const DEFAULT_ENVIRONMENT = 'local';
-const DEFAULT_SLO_PROFILE = 'login';
+const DEFAULT_SLO_PROFILE = 'positive';
 
 const CONFIG_ROOT = __ENV.CONFIG_ROOT || '../../../config';
 
@@ -49,14 +49,13 @@ export function loadEnvironmentConfig(
 /**
  * SLO config loader (also resolved now)
  */
-export function loadSloConfig(
-  sloProfile = __ENV.SLO_PROFILE || DEFAULT_SLO_PROFILE
-) {
-  const raw = loadJsonConfig(`${CONFIG_ROOT}/slo/${sloProfile}.json`);
+export function loadSloConfig(defaultSloProfile) {
+  const profileToUse = __ENV.SLO_PROFILE || defaultSloProfile || DEFAULT_SLO_PROFILE;
+  const raw = loadJsonConfig(`${CONFIG_ROOT}/slo/${profileToUse}.json`);
 
   const config = resolvePlaceholders(raw);
 
-  assertRequired(config, ['service', 'slo'], `SLO config "${sloProfile}"`);
+  assertRequired(config, ['service', 'slo'], `SLO config "${profileToUse}"`);
 
   return config;
 }
@@ -64,10 +63,10 @@ export function loadSloConfig(
 /**
  * Runtime config aggregator
  */
-export function resolveRuntimeConfig() {
+export function resolveRuntimeConfig(defaultSloProfile) {
   return {
     environment: loadEnvironmentConfig(),
-    slo: loadSloConfig(),
+    slo: loadSloConfig(defaultSloProfile),
     execution: {
       scenario: __ENV.SCENARIO || 'load',
       runId: __ENV.RUN_ID || String(Date.now()),
@@ -90,8 +89,37 @@ function assertRequired(config, fields, label) {
   }
 }
 
+let parsedEnv = null;
+
+function getEnvVariables() {
+  if (parsedEnv !== null) return parsedEnv;
+  
+  parsedEnv = {};
+  try {
+    const envFileContent = open(`${CONFIG_ROOT}/../.env`);
+    const lines = envFileContent.split('\n');
+    
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith('#')) continue;
+      
+      const index = trimmed.indexOf('=');
+      if (index > -1) {
+        const key = trimmed.substring(0, index).trim();
+        const val = trimmed.substring(index + 1).trim();
+        // Remove quotes if present
+        parsedEnv[key] = val.replace(/^["'](.*)["']$/, '$1');
+      }
+    }
+  } catch (error) {
+    // Ignore if .env doesn't exist
+  }
+  
+  return parsedEnv;
+}
+
 /**
- * 🔥 Core improvement: safe recursive placeholder resolver
+ *  Core improvement: safe recursive placeholder resolver
  */
 function resolvePlaceholders(value) {
   if (Array.isArray(value)) {
@@ -110,7 +138,15 @@ function resolvePlaceholders(value) {
     return value;
   }
 
+  const customEnv = getEnvVariables();
+
   return value.replace(/\$\{([A-Z0-9_]+)\}/g, (_, envKey) => {
-    return __ENV[envKey] !== undefined ? __ENV[envKey] : '';
+    if (__ENV[envKey] !== undefined) {
+      return __ENV[envKey];
+    }
+    if (customEnv[envKey] !== undefined) {
+      return customEnv[envKey];
+    }
+    return '';
   });
 }

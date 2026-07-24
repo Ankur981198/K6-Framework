@@ -6,14 +6,31 @@
  */
 
 export function buildThresholds(sloConfig) {
-  if (!sloConfig || !sloConfig.slo) {
-    throw new Error('SLO config must include a "slo" object.');
+  if (!sloConfig || (!sloConfig.slo && !sloConfig.systems)) {
+    throw new Error('SLO config must include a "slo" or "systems" object.');
   }
 
-  return Object.entries(sloConfig.slo).reduce((thresholds, [metricName, rules]) => {
-    thresholds[metricName] = normalizeRules(metricName, rules);
-    return thresholds;
-  }, {});
+  const thresholds = {};
+
+  // Process global SLOs
+  if (sloConfig.slo) {
+    Object.entries(sloConfig.slo).forEach(([metricName, rules]) => {
+      thresholds[metricName] = normalizeRules(metricName, rules);
+    });
+  }
+
+  // Process system-specific SLOs (Multi-system support)
+  // Generates tags like: http_req_duration{system:payment}
+  if (sloConfig.systems) {
+    Object.entries(sloConfig.systems).forEach(([systemName, systemSlos]) => {
+      Object.entries(systemSlos).forEach(([metricName, rules]) => {
+        const taggedMetric = `${metricName}{system:${systemName}}`;
+        thresholds[taggedMetric] = normalizeRules(taggedMetric, rules);
+      });
+    });
+  }
+
+  return thresholds;
 }
 
 function normalizeRules(metricName, rules) {
