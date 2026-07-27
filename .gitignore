@@ -8,6 +8,7 @@ reports/*
 .env
 .env.*
 !.env.example
+!.env.template
 config/env/*.local.json
 config/env/*secret*.json
 config/env/*secrets*.json

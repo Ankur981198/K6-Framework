@@ -23,6 +23,23 @@ k6-framework/
   reports/
 ```
 
+## Environment Setup
+
+The framework uses a `.env` file to manage sensitive information and environment-specific settings (like base URLs and credentials) without hardcoding them into the repository. The `.env` variables are automatically parsed and injected into your `local.json` configuration when you run tests.
+
+1. Copy the provided `.env.template` to create your own `.env` file:
+   ```bash
+   cp .env.template .env
+   ```
+2. Open `.env` and fill in the required values:
+   ```env
+   BASE_URL=https://example.com
+   USER_EMAIL=your-email@example.com
+   USER_PASSWORD=your-secure-password
+   ```
+
+*Note: The `.env` file is ignored by Git to keep your credentials secure.*
+
 ## Run Locally
 
 Install k6 first:
@@ -61,9 +78,9 @@ chmod +x scripts/run-local.sh
 
 Or run directly:
 
-If authentication is enabled for the selected environment, pass credentials at runtime:
+Alternatively, you can override `.env` variables at runtime using the `-e` flag:
 ```bash
-k6 run -e ENVIRONMENT=local -e SLO_PROFILE=positive -e SCENARIO=load tests/addToCart/scenarios/addToCart.test.js
+k6 run -e ENVIRONMENT=local -e SLO_PROFILE=positive -e SCENARIO=load -e USER_EMAIL=test@test.com tests/addToCart/scenarios/addToCart.test.js
 ```
 
 Threshold breaches fail the k6 process, which fails CI.
