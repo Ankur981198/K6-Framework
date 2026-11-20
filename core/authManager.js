@@ -59,7 +59,7 @@ export class AuthManager {
     return {
       token,
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `${token}`, // Bearer is not needed for this website 
       },
     };
   }

@@ -1,0 +1,142 @@
+{
+  "service": "login",
+  "journey": "login",
+
+  "scenarios": {
+
+    "smoke": {
+      "executor": "constant-vus",
+      "vus": 1,
+      "duration": "15s"
+    },
+
+    "load": {
+      "executor": "ramping-vus",
+      "stages": [
+        {
+          "duration": "15s",
+          "target": 2
+        },
+        {
+          "duration": "30s",
+          "target": 5
+        },
+        {
+          "duration": "15s",
+          "target": 0
+        }
+      ],
+      "gracefulRampDown": "10s"
+    },
+
+    "stress": {
+      "executor": "ramping-vus",
+      "stages": [
+        {
+          "duration": "20s",
+          "target": 5
+        },
+        {
+          "duration": "30s",
+          "target": 10
+        },
+        {
+          "duration": "20s",
+          "target": 15
+        },
+        {
+          "duration": "15s",
+          "target": 0
+        }
+      ],
+      "gracefulRampDown": "10s"
+    },
+
+    "spike": {
+      "executor": "ramping-vus",
+      "stages": [
+        {
+          "duration": "10s",
+          "target": 2
+        },
+        {
+          "duration": "5s",
+          "target": 20
+        },
+        {
+          "duration": "20s",
+          "target": 20
+        },
+        {
+          "duration": "10s",
+          "target": 0
+        }
+      ],
+      "gracefulRampDown": "10s"
+    },
+
+    "soak": {
+      "executor": "constant-vus",
+      "vus": 5,
+      "duration": "5m"
+    },
+
+    "breakpoint": {
+      "executor": "ramping-vus",
+      "stages": [
+        {
+          "duration": "20s",
+          "target": 2
+        },
+        {
+          "duration": "20s",
+          "target": 5
+        },
+        {
+          "duration": "20s",
+          "target": 10
+        },
+        {
+          "duration": "20s",
+          "target": 15
+        },
+        {
+          "duration": "20s",
+          "target": 20
+        }
+      ],
+      "gracefulRampDown": "10s"
+    }
+  },
+
+  "slo": {
+    "http_req_failed": [
+      {
+        "stat": "rate",
+        "operator": "<",
+        "value": 0.01
+      }
+    ],
+
+    "http_req_duration": [
+      {
+        "stat": "p(95)",
+        "operator": "<",
+        "value": 1000
+      },
+      {
+        "stat": "avg",
+        "operator": "<",
+        "value": 500
+      }
+    ],
+
+    "checks": [
+      {
+        "stat": "rate",
+        "operator": ">",
+        "value": 0.99
+      }
+    ]
+  }
+}

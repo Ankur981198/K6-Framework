@@ -1,0 +1,40 @@
+[
+  {
+    "userId": "6a420ffd378febeacdd707de",
+    "country": "India",
+    "product": {
+      "_id": "6960eae1c941646b7a8b3ed3",
+      "productName": "ADIDAS ORIGINAL",
+      "productCategory": "electronics",
+      "productSubCategory": "mobiles",
+      "productPrice": 11500,
+      "productDescription": "Apple phone",
+      "productImage": "https://rahulshettyacademy.com/api/ecom/uploads/productImage_1767959265156.jpg",
+      "productRating": "0",
+      "productTotalOrders": "0",
+      "productStatus": true,
+      "productFor": "women",
+      "productAddedBy": "admin",
+      "__v": 0
+    }
+  },
+  {
+    "userId": "6a420ffd378febeacdd707de",
+    "country": "India",
+    "product": {
+      "_id": "697b72b751997c5494c29a8e",
+      "productName": "APPLE MAGSAFE CHARGER",
+      "productCategory": "electronics",
+      "productSubCategory": "mobiles",
+      "productPrice": 129900,
+      "productDescription": "Wireless charging for iPhone 12 and later",
+      "productImage": "https://rahulshettyacademy.com/api/ecom/uploads/productImage_1768745527662.jpg",
+      "productRating": "5",
+      "productTotalOrders": "3",
+      "productStatus": true,
+      "productFor": "men",
+      "productAddedBy": "admin",
+      "__v": 0
+    }
+  }
+]

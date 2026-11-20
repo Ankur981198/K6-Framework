@@ -1,0 +1,62 @@
+{
+  "scenarios": [
+    {
+      "name": "MISSING_PRODUCT_ID",
+      "expectedStatus": [400, 422],
+      "payload": {
+        "orders": [
+          {
+            "country": "IN"
+          }
+        ]
+      }
+    },
+    {
+      "name": "EMPTY_PRODUCT_ID",
+      "expectedStatus": [400, 422],
+      "payload": {
+        "orders": [
+          {
+            "country": "IN",
+            "productOrderedId": ""
+          }
+        ]
+      }
+    },
+    {
+      "name": "MISSING_COUNTRY",
+      "expectedStatus": [400, 422],
+      "payload": {
+        "orders": [
+          {
+            "productOrderedId": "INVALID_OR_WILL_BE_OVERRIDDEN"
+          }
+        ]
+      }
+    },
+    {
+      "name": "INVALID_PRODUCT_ID",
+      "expectedStatus": [400, 422],
+      "payload": {
+        "orders": [
+          {
+            "country": "IN",
+            "productOrderedId": "@@INVALID@@"
+          }
+        ]
+      }
+    },
+    {
+      "name": "EMPTY_ORDERS_ARRAY",
+      "expectedStatus": [400, 422],
+      "payload": {
+        "orders": []
+      }
+    },
+    {
+      "name": "NULL_PAYLOAD",
+      "expectedStatus": [400, 422],
+      "payload": null
+    }
+  ]
+}

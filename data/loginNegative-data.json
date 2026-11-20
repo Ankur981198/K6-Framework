@@ -1,0 +1,22 @@
+[
+  {
+    "userEmail": "",
+    "userPassword": "Rk@12345",
+    "expectedKeyword": "email"
+  },
+  {
+    "userEmail": "rk11@gmail.com",
+    "userPassword": "",
+    "expectedKeyword": "password"
+  },
+  {
+    "userEmail": "",
+    "userPassword": "",
+    "expectedKeyword": "email"
+  },
+  {
+    "userEmail": "invalid-email",
+    "userPassword": "Rk@12345",
+    "expectedKeyword": "email"
+  }
+]

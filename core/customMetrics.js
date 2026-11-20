@@ -1,16 +1,32 @@
-import { Rate, Trend } from 'k6/metrics';
+import { Rate, Trend, Counter } from 'k6/metrics';
 
 /**
- * Core Framework Layer: custom SLIs
- *
- * These metrics are intentionally domain-oriented rather than endpoint-only.
- * They can be exported to Prometheus/Grafana through the k6 output layer
- * without changing journey code.
+ * Generic Business Transaction Metrics
+ */
+export const transactionDuration = new Trend('transaction_duration',true);
+export const businessTransactionDuration = new Trend('business_transaction_duration',true);
+
+/**
+ * Business API Duration
  */
 
-export const checkoutTransactionDuration = new Trend('checkout_transaction_duration', true);
-export const businessTransactionDuration = new Trend('business_transaction_duration', true);
+export const loginDuration = new Trend('login_duration', true);
+export const addToCartDuration =new Trend('add_to_cart_duration', true);
 
-export const errorRate = new Rate('error_rate');
+/**
+ * Success / Failure
+ */
+
+export const loginSuccessRate =new Rate('login_success_rate');
+export const addToCartSuccessRate = new Rate('add_to_cart_success_rate');
+export const businessFailureRate = new Rate('business_failure_rate');
 export const authFailureRate = new Rate('auth_failure_rate');
-export const retryRate = new Rate('retry_rate');
+export const errorRate =new Rate('error_rate');
+export const retryRate =new Rate('retry_rate');
+
+/**
+ * Business Counters
+ */
+
+export const loginCount =new Counter('login_count');
+export const addToCartCount =new Counter('add_to_cart_count');
