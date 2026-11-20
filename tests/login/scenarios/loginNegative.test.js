@@ -7,7 +7,7 @@ import { textSummary } from "https://jslib.k6.io/k6-summary/0.0.4/index.js";
 import { buildThresholds,} from '../../../core/thresholdManager.js';
 import { executeLoginNegativeJourney } from '../journeys/loginNegative.flow.js';
 
-const runtimeConfig = resolveRuntimeConfig();
+const runtimeConfig = resolveRuntimeConfig('negative');
 const scenarioType = runtimeConfig.execution.scenario;
 const scenarioConfig = runtimeConfig.slo.scenarios[scenarioType];
 

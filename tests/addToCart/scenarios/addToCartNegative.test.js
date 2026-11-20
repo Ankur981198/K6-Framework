@@ -8,7 +8,7 @@ import { buildThresholds } from '../../../core/thresholdManager.js';
 import {executeAddToCartNegativeJourney,} from '../journeys/addToCartNegative.flow.js';
 
 
-const runtimeConfig = resolveRuntimeConfig();
+const runtimeConfig = resolveRuntimeConfig('negative');
 const scenarioType = runtimeConfig.execution.scenario;
 const scenarioConfig = runtimeConfig.slo.scenarios[scenarioType];
 
