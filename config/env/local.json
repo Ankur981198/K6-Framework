@@ -1,6 +1,6 @@
 {
   "name": "local",
-  "baseUrl": "https://rahulshettyacademy.com",
+  "baseUrl": "${BASE_URL}",
 
   "http": {
     "timeout": "30s",
